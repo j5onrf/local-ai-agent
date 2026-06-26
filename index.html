@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local-AI Agent — Lightweight as your Bash prompt.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            /* Typography */
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             --text-light: #ffffff;
             --text-muted: rgba(255, 255, 255, 0.65);
             --glass-bg: rgba(255, 255, 255, 0.02);
@@ -16,6 +21,7 @@
             --bg-color: #06080d; 
             --accent-color: #a78bfa;
             --glow-color: rgba(167, 139, 250, 0.18);
+            --card-glow: rgba(167, 139, 250, 0.15);
         }
 
         /* MODIFIER: Day Mode (Sunset Charcoal) */
@@ -23,6 +29,7 @@
             --bg-color: #0e0a08;
             --accent-color: #f59e0b;
             --glow-color: rgba(245, 158, 11, 0.2);
+            --card-glow: rgba(245, 158, 11, 0.15);
         }
 
         * {
@@ -272,11 +279,11 @@
         }
 
         .hero-title {
-            font-family: monospace;
+            font-family: var(--font-mono); /* Loads JetBrains Mono with fallback */
             font-size: 3.5rem;
             font-weight: 800;
             line-height: 1.1;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em; /* Optimized for JetBrains Mono's natural character width */
             margin-bottom: 1.5rem;
             max-width: 800px;
             text-transform: uppercase;
@@ -304,7 +311,7 @@
             align-items: center;
             margin-bottom: 3rem;
             color: var(--text-muted);
-            font-family: monospace;
+            font-family: var(--font-mono);
             font-size: 1.1rem;
             letter-spacing: 0.05em;
             text-transform: uppercase;
@@ -360,24 +367,6 @@
         body.day-mode .toggle-slider {
             transform: translateX(0); /* Slides and centers perfectly on the left (Day) */
         }
-        
-        .toggle-slider {
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 86px; /* Matches the exact flex-width of a single button */
-            height: 34px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 9999px;
-            z-index: 1;
-            transform: translateX(86px); /* Starts perfectly centered on the right (Night) */
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        body.day-mode .toggle-slider {
-            transform: translateX(0); /* Slides and centers perfectly on the left (Day) */
-        }
 
         .toggle-btn.active {
             color: var(--text-light);
@@ -410,7 +399,7 @@
         }
 
         .card h3 {
-            font-family: monospace;
+            font-family: var(--font-mono);
             font-size: 1.15rem;
             font-weight: 700;
             margin-bottom: 0.6rem;
@@ -432,7 +421,7 @@
         }
 
         .section-title {
-            font-family: monospace;
+            font-family: var(--font-mono);
             font-size: 1.8rem;
             font-weight: 800;
             letter-spacing: -0.01em;
@@ -471,7 +460,7 @@
 
         .comp-header {
             font-weight: 700;
-            font-family: monospace;
+            font-family: var(--font-mono);
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-light);
@@ -515,7 +504,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: monospace;
+            font-family: var(--font-mono);
             font-size: 0.8rem;
             letter-spacing: 0.05em;
             text-transform: uppercase;
