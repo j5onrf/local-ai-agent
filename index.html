@@ -38,6 +38,12 @@
             padding: 0;
         }
 
+        /* Native browser scroll offset to prevent fixed header overlap */
+        html {
+            scroll-behavior: smooth; /* Buttery smooth native scrolling transition */
+            scroll-padding-top: 100px; /* Forces browser to stop 100px above any clicked anchor target */
+        }
+
         body {
             font-family: var(--font-sans);
             color: var(--text-light);
