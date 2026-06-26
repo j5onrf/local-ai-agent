@@ -203,17 +203,25 @@
             50% { transform: translate(-40px, 40px) rotate(-60deg); }
         }
 
-        /* Header Navigation */
+        /* Header Navigation with Scrolling Blur Shield */
         header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 10;
-            padding: 1.5rem 2rem;
+            z-index: 100; /* High z-index barrier to stay strictly on top of all content */
+            padding: 1rem 2rem; /* Slightly tighter padding for a cleaner scroll profile */
             display: flex;
             justify-content: space-between;
             align-items: center;
+            
+            /* Glassmorphic Blur Shield */
+            background: rgba(8, 10, 15, 0.4); /* Matches your deep obsidian theme base */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); /* Safari support */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border barrier */
+            
+            transition: background 0.3s, border-color 0.3s;
         }
 
         .logo {
@@ -288,7 +296,74 @@
             max-width: 800px;
             text-transform: uppercase;
         }
+        
+        .title-line-1 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            height: 3.8rem;
+            vertical-align: top;
+        }
 
+        .flip-wrapper {
+            display: inline-block;
+            height: 3.8rem; /* Aligned with your h1 font size */
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .flip-words {
+            display: flex;
+            flex-direction: column;
+            /* 16 seconds total loop duration */
+            animation: word-flip 16s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+        }
+
+        /* Nav & Footer Vector Icons */
+        .nav-icon {
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 6px;
+            margin-top: -2px; /* Precision baseline alignment */
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        nav a:hover .nav-icon {
+            color: var(--text-light); /* Lights up white on hover */
+        }
+
+        .gemini-icon {
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 4px;
+            margin-top: -2px;
+            fill: var(--accent-color);
+            filter: drop-shadow(0 0 4px var(--accent-color));
+            transition: fill 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .flip-words span {
+            display: block;
+            height: 3.8rem;
+            line-height: 3.8rem; /* Vertically centers the text in the buffer */
+            color: var(--accent-color); /* The active word glows with your current theme color */
+            transition: color 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes word-flip {
+            0%, 17.5% { transform: translateY(0); }
+            25%, 42.5% { transform: translateY(-20%); }
+            50%, 67.5% { transform: translateY(-40%); }
+            75%, 92.5% { transform: translateY(-60%); }
+            100% { transform: translateY(-80%); }
+        }
+        
         .hero-subtitle {
             font-size: 1.15rem;
             color: var(--text-muted);
@@ -580,16 +655,48 @@
     <header>
         <div class="logo"><span>&gt;_</span> Local-AI Agent</div>
         <nav>
-            <a href="#features">Pillars</a>
-            <a href="#architecture">Architecture</a>
-            <a href="https://github.com/j5onrf/local-ai" target="_blank">Repository</a>
+            <a href="#features">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>Pillars
+            </a>
+            <a href="#architecture">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Top Master Node -->
+                    <rect x="9" y="2" width="6" height="6" rx="1" />
+                    <!-- Bottom Left Worker Node -->
+                    <rect x="2" y="16" width="6" height="6" rx="1" />
+                    <!-- Bottom Right Worker Node -->
+                    <rect x="16" y="16" width="6" height="6" rx="1" />
+                    <!-- Connecting Branch Lines -->
+                    <path d="M12 8v4M5 16v-4h14v4" />
+                </svg>Architecture
+            </a>
+            <a href="https://github.com/j5onrf/local-ai" target="_blank">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.758.069-.742.069-.742 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>Repository
+            </a>
         </nav>
         <a href="https://github.com/j5onrf/local-ai" class="btn-github" target="_blank">Get Started (Beta)</a>
     </header>
 
     <!-- Main Section -->
-    <main>
-        <h1 class="hero-title">Lightweight as<br>your Bash prompt.</h1>
+        <main>
+           <h1 class="hero-title">
+    <div class="title-line-1">
+        <span class="flip-wrapper">
+            <span class="flip-words">
+                <span>Ultralight</span>
+                <span>Lightweight</span>
+                <span>Zero-Daemon</span>
+                <span>Instant</span>
+                <span>Ultralight</span>
+            </span>
+        </span> like
+    </div>
+    your Bash prompt.
+</h1>
         <p class="hero-subtitle">An ultra-light, zero-daemon terminal assistant built on pure standard-library Python. Codebase-aware, state-isolated, and context-optimized.</p>
 
         <!-- Video Placeholder Container (16:9 Aspect Ratio) -->
