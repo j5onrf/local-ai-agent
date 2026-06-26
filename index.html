@@ -321,7 +321,7 @@
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(20px);
-            padding: 0.25rem;
+            padding: 3px; /* Exact pixel padding */
             border-radius: 9999px;
             display: flex;
             position: relative;
@@ -347,18 +347,36 @@
             position: absolute;
             top: 3px;
             left: 3px;
-            width: 84px;
+            width: 86px; /* Matches the exact flex-width of a single button */
             height: 34px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 9999px;
             z-index: 1;
-            transform: translateX(90px); /* Start on Night (right) by default */
+            transform: translateX(86px); /* Starts perfectly centered on the right (Night) */
             transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         body.day-mode .toggle-slider {
-            transform: translateX(0); /* Slide left on Day mode */
+            transform: translateX(0); /* Slides and centers perfectly on the left (Day) */
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 86px; /* Matches the exact flex-width of a single button */
+            height: 34px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 9999px;
+            z-index: 1;
+            transform: translateX(86px); /* Starts perfectly centered on the right (Night) */
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        body.day-mode .toggle-slider {
+            transform: translateX(0); /* Slides and centers perfectly on the left (Day) */
         }
 
         .toggle-btn.active {
@@ -593,8 +611,8 @@
         <!-- Dynamic Day/Night Toggle Switch -->
         <div class="toggle-container" id="mode-toggle">
             <div class="toggle-slider"></div>
-            <div class="toggle-btn">Day</div>
-            <div class="toggle-btn active">Night</div>
+            <div class="toggle-btn">Sunset</div>
+            <div class="toggle-btn active">Nebulae</div>
         </div>
 
         <!-- Glass Grid -->
