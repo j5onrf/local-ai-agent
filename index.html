@@ -322,8 +322,8 @@
         .flip-words {
             display: flex;
             flex-direction: column;
-            /* 16 seconds total loop duration */
-            animation: word-flip 16s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+            /* 12 seconds total loop duration (4 seconds per word) */
+            animation: word-flip 12s cubic-bezier(0.25, 1, 0.5, 1) infinite;
         }
 
         /* Nav & Footer Vector Icons */
@@ -363,11 +363,10 @@
         }
 
         @keyframes word-flip {
-            0%, 17.5% { transform: translateY(0); }
-            25%, 42.5% { transform: translateY(-20%); }
-            50%, 67.5% { transform: translateY(-40%); }
-            75%, 92.5% { transform: translateY(-60%); }
-            100% { transform: translateY(-80%); }
+            0%, 15% { transform: translateY(0); }
+            25%, 40% { transform: translateY(-25%); }
+            50%, 75% { transform: translateY(-50%); }
+            100% { transform: translateY(-75%); }
         }
         
         .hero-subtitle {
@@ -686,21 +685,21 @@
     </header>
 
     <!-- Main Section -->
+        <!-- Main Section with 3-Word Loop -->
         <main>
-           <h1 class="hero-title">
-    <div class="title-line-1">
-        <span class="flip-wrapper">
-            <span class="flip-words">
-                <span>Ultralight</span>
-                <span>Lightweight</span>
-                <span>Zero-Daemon</span>
-                <span>Instant</span>
-                <span>Ultralight</span>
-            </span>
-        </span> like
-    </div>
-    your Bash prompt.
-</h1>
+            <h1 class="hero-title">
+                <div class="title-line-1">
+                    <span class="flip-wrapper">
+                        <span class="flip-words">
+                            <span>Ultralight</span>
+                            <span>Instant</span>
+                            <span>Zero-Daemon</span>
+                            <span>Ultralight</span> <!-- Duplicate of 1st word for seamless looping -->
+                        </span>
+                    </span> like
+                </div>
+                your Bash prompt.
+            </h1>
         <p class="hero-subtitle">An ultra-light, zero-daemon terminal assistant built on pure standard-library Python. Codebase-aware, state-isolated, and context-optimized.</p>
 
         <!-- Video Placeholder Container (16:9 Aspect Ratio) -->
