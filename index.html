@@ -378,30 +378,28 @@
             line-height: 1.6;
         }
 
-        /* Video Placeholder Container (16:9 Aspect Ratio) */
+        /* Video Placeholder Container (640x360 Sweet Spot) */
         .video-placeholder {
             background: var(--glass-bg);
-            border: 1px dashed var(--glass-border);
+            border: 1px dashed rgba(255, 255, 255, 0.15); /* Permanent highlighted border */
             backdrop-filter: blur(12px);
             width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16 / 9;
+            max-width: 640px; /* Optimal size for terminal readability & minimal layout */
+            aspect-ratio: 16 / 9; /* Guarantees standard 16:9 video proportions */
             border-radius: 16px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
             color: var(--text-muted);
             font-family: var(--font-mono);
-            font-size: 1.1rem;
+            font-size: 1rem;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .video-placeholder:hover {
-            border-color: rgba(255, 255, 255, 0.15);
+            
+            /* Permanent Ambient Glow & Transitions */
             box-shadow: 0 0 25px var(--glow-color);
+            transition: border-color 0.3s, box-shadow 1.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         /* Day/Night Toggle */
@@ -706,9 +704,8 @@
         <p class="hero-subtitle">An ultra-light, zero-daemon terminal assistant built on pure standard-library Python. Codebase-aware, state-isolated, and context-optimized.</p>
 
         <!-- Video Placeholder Container (16:9 Aspect Ratio) -->
-        <div class="video-placeholder">
-            <span>Reserved for Video</span>
-        </div>
+        <!-- Interactive Technical Canvas Placeholder -->
+        <canvas id="terminal-matrix" class="video-placeholder"></canvas>
 
         <!-- Dynamic Day/Night Toggle Switch -->
         <div class="toggle-container" id="mode-toggle">
@@ -814,6 +811,137 @@
                 btnNight.classList.add('active');
             }
         });
+    </script>
+    <script>
+        // --- 1. Dynamic Tech Canvas Matrix ---
+        const canvas = document.getElementById('terminal-matrix');
+        const ctx = canvas.getContext('2d');
+
+        // Match the exact 16:9 inner dimensions based on the CSS max-width limits
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Grid Configuration & Coordinates
+        const hexSize = 24; // Side length of hexagons
+        const xSpacing = hexSize * Math.sqrt(3);
+        const ySpacing = hexSize * 1.5;
+        let particles = [];
+        let mouse = { x: null, y: null, active: false };
+
+        // Tracks mouse coordinates relative to the canvas bounding box
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+            mouse.active = true;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            mouse.active = false;
+        });
+
+        // Initialize active traveling data nodes
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.speed = 0.5 + Math.random() * 0.8;
+                this.angle = (Math.floor(Math.random() * 6) * Math.PI) / 3; // Align to hex angles
+                this.life = 100 + Math.random() * 100;
+                this.maxLife = this.life;
+            }
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.life--;
+            }
+            draw(color) {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.shadowColor = color;
+                ctx.shadowBlur = 6;
+                ctx.fill();
+                ctx.shadowBlur = 0; // Reset shadow for performance
+            }
+        }
+
+        // Draw a single flat outline hexagon
+        function drawHexagon(x, y, size, strokeColor) {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (Math.PI / 3) * i;
+                const px = x + size * Math.cos(angle);
+                const py = y + size * Math.sin(angle);
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = 0.4;
+            ctx.stroke();
+        }
+
+        // Main 60fps Render Loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dynamically inherit active CSS variables to synchronize colors with Sunset/Nebulae toggle
+            const isNight = !document.body.classList.contains('day-mode');
+            const accentColor = isNight ? 'rgba(167, 139, 250, 0.05)' : 'rgba(245, 158, 11, 0.05)';
+            const nodeColor = isNight ? 'rgba(0, 240, 255, 0.5)' : 'rgba(245, 158, 11, 0.6)';
+
+            // 1. Draw static tech grid
+            const cols = Math.ceil(canvas.width / xSpacing) + 1;
+            const rows = Math.ceil(canvas.height / ySpacing) + 1;
+
+            for (let r = 0; r < rows; r++) {
+                const y = r * ySpacing;
+                const offset = (r % 2) * (xSpacing / 2);
+                for (let c = 0; r % 2 === 0 ? c < cols : c < cols + 1; c++) {
+                    const x = c * xSpacing - offset;
+                    
+                    // Add mouse interactive scaling
+                    let stroke = accentColor;
+                    if (mouse.active) {
+                        const dist = Math.hypot(x - mouse.x, y - mouse.y);
+                        if (dist < 100) {
+                            const opacity = (1 - dist / 100) * 0.15 + 0.05;
+                            stroke = isNight ? `rgba(0, 240, 255, ${opacity})` : `rgba(245, 158, 11, ${opacity})`;
+                        }
+                    }
+                    drawHexagon(x, y, hexSize, stroke);
+                }
+            }
+
+            // 2. Generate and update active traveling nodes
+            if (particles.length < 15 && Math.random() < 0.1) {
+                const rx = Math.random() * canvas.width;
+                const ry = Math.random() * canvas.height;
+                particles.push(new Particle(rx, ry));
+            }
+
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw(nodeColor);
+                if (p.life <= 0 || p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
+                    particles.splice(index, 1);
+                }
+            });
+
+            // 3. Central glowing status overlay
+            ctx.font = '11px monospace';
+            ctx.fillStyle = isNight ? 'rgba(0, 240, 255, 0.35)' : 'rgba(245, 158, 11, 0.45)';
+            ctx.textAlign = 'center';
+            ctx.fillText('RESERVED FOR DEMO VIDEO', canvas.width / 2, canvas.height / 2);
+
+            requestAnimationFrame(animate);
+        }
+        animate();
     </script>
     <!-- 7. Premium Glassmorphic Footer -->
     <footer>
