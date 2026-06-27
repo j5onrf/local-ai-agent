@@ -322,8 +322,8 @@
         .flip-words {
             display: flex;
             flex-direction: column;
-            /* 12 seconds total loop duration (4 seconds per word) */
-            animation: word-flip 12s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+            /* 16 seconds total loop duration */
+            animation: word-flip 16s cubic-bezier(0.25, 1, 0.5, 1) infinite;
         }
 
         /* Nav & Footer Vector Icons */
@@ -363,9 +363,10 @@
         }
 
         @keyframes word-flip {
-            0%, 15% { transform: translateY(0); }
-            25%, 40% { transform: translateY(-25%); }
-            50%, 75% { transform: translateY(-50%); }
+            0%, 22% { transform: translateY(0); }
+            25%, 47% { transform: translateY(-25%); }
+            50%, 72% { transform: translateY(-50%); }
+            75%, 97% { transform: translateY(-75%); } /* Corrected from -60% to -75% */
             100% { transform: translateY(-75%); }
         }
         
