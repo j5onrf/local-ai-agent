@@ -197,8 +197,8 @@
             50% { transform: translate(50px, 50px) rotate(120deg); }
         }
         @keyframes float-4 {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-50px, -30px) rotate(-90deg); }
+            0%, 100% { transform: translate(-50px, -30px) rotate(-90deg); }
+            50% { transform: translate(0, 0) rotate(0deg); }
         }
         @keyframes float-5 {
             0%, 100% { transform: translate(25px, -25px) rotate(180deg); }
@@ -216,16 +216,16 @@
             left: 0;
             width: 100%;
             z-index: 100; /* High z-index barrier to stay strictly on top of all content */
-            padding: 1rem 2rem; /* Slightly tighter padding for a cleaner scroll profile */
+            padding: 1rem 2rem; 
             display: flex;
             justify-content: space-between;
             align-items: center;
             
             /* Glassmorphic Blur Shield */
-            background: rgba(8, 10, 15, 0.4); /* Matches your deep obsidian theme base */
+            background: rgba(8, 10, 15, 0.4); 
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); /* Safari support */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border barrier */
+            -webkit-backdrop-filter: blur(12px); 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
             
             transition: background 0.3s, border-color 0.3s;
         }
@@ -297,7 +297,7 @@
             font-size: 3.5rem;
             font-weight: 800;
             line-height: 1.1;
-            letter-spacing: -0.01em; /* Optimized for JetBrains Mono's natural character width */
+            letter-spacing: -0.01em; 
             margin-bottom: 1.5rem;
             max-width: 800px;
             text-transform: uppercase;
@@ -366,7 +366,7 @@
             0%, 22% { transform: translateY(0); }
             25%, 47% { transform: translateY(-25%); }
             50%, 72% { transform: translateY(-50%); }
-            75%, 97% { transform: translateY(-75%); } /* Corrected from -60% to -75% */
+            75%, 97% { transform: translateY(-75%); } 
             100% { transform: translateY(-75%); }
         }
         
@@ -378,28 +378,111 @@
             line-height: 1.6;
         }
 
-        /* Video Placeholder Container (640x360 Sweet Spot) */
-        .video-placeholder {
-            background: var(--glass-bg);
-            border: 1px dashed rgba(255, 255, 255, 0.15); /* Permanent highlighted border */
-            backdrop-filter: blur(12px);
+        /* --- Interactive Kitty Terminal emulator styling --- */
+        .terminal-container {
             width: 100%;
-            max-width: 640px; /* Optimal size for terminal readability & minimal layout */
-            aspect-ratio: 16 / 9; /* Guarantees standard 16:9 video proportions */
-            border-radius: 16px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            max-width: 640px; /* Aligned exactly with your 640px sweet-spot video width */
             margin-bottom: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .terminal-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            align-self: flex-start;
+        }
+
+        .term-tab-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             color: var(--text-muted);
             font-family: var(--font-mono);
-            font-size: 1rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            
-            /* Permanent Ambient Glow & Transitions */
+            font-size: 0.8rem;
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: color 0.3s, border-color 0.3s, background 0.3s;
+        }
+
+        .term-tab-btn:hover {
+            color: var(--text-light);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .term-tab-btn.active {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.03);
+            font-weight: bold;
+        }
+
+        .terminal-window {
+            background: rgba(10, 12, 18, 0.65);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            line-height: 1.4;
             box-shadow: 0 0 25px var(--glow-color);
-            transition: border-color 0.3s, box-shadow 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: border-color 0.4s, box-shadow 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        body.day-mode .terminal-window {
+            background: rgba(14, 10, 8, 0.7);
+        }
+
+        .terminal-window:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 35px var(--glow-color);
+        }
+
+        /* Removed Mac-style window controls title bar completely for authentic flat Arch/Hyprland styling */
+        .terminal-screen {
+            flex: 1;
+            padding: 1.2rem;
+            overflow-y: auto;
+            color: #d1d5db;
+        }
+
+        /* Color classes matching ANSI CLI colors */
+        .term-cyan { color: var(--accent-color); transition: color 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
+        .term-dim { color: rgba(255, 255, 255, 0.35); }
+        .term-gray { color: #9ca3af; }
+        .term-green { color: #10b981; }
+        .term-red { color: #ef4444; }
+        .term-prompt { color: #34d399; font-weight: bold; }
+        .term-white { color: #ffffff; }
+
+        .term-line {
+            min-height: 1.25rem;
+            margin-bottom: 0.2rem;
+            white-space: pre-wrap;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 7px;
+            height: 15px;
+            background: var(--text-light);
+            vertical-align: middle;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         /* Day/Night Toggle */
@@ -407,7 +490,7 @@
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(20px);
-            padding: 3px; /* Exact pixel padding */
+            padding: 3px; 
             border-radius: 9999px;
             display: flex;
             position: relative;
@@ -433,7 +516,7 @@
             position: absolute;
             top: 3px;
             left: 3px;
-            width: 86px; /* Matches the exact flex-width of a single button */
+            width: 86px; 
             height: 34px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -491,7 +574,7 @@
             line-height: 1.5;
         }
 
-        /* 5. Hard Specs Comparison Section */
+        /* 5. Direct Mapping vs. MCP Callout */
         .comparison-section {
             width: 100%;
             max-width: 1000px;
@@ -705,9 +788,20 @@
             </h1>
         <p class="hero-subtitle">An ultra-light, zero-daemon terminal assistant built on pure standard-library Python. Codebase-aware, state-isolated, and context-optimized.</p>
 
-        <!-- Video Placeholder Container (16:9 Aspect Ratio) -->
-        <!-- Interactive Technical Canvas Placeholder -->
-        <canvas id="terminal-matrix" class="video-placeholder"></canvas>
+        <!-- Simulated Interactive Hyprland Terminal Emulator (Kitty) -->
+        <div class="terminal-container">
+            <div class="terminal-tabs">
+                <button class="term-tab-btn active" onclick="loadScenario('init')">ai init &lt;project&gt;</button>
+                <button class="term-tab-btn" onclick="loadScenario('chat')">ai (conversational)</button>
+                <button class="term-tab-btn" onclick="loadScenario('query')">ai &lt;query&gt;</button>
+            </div>
+            
+            <div class="terminal-window">
+                <div class="terminal-screen" id="terminal-screen">
+                    <!-- Lines injected dynamically by JavaScript -->
+                </div>
+            </div>
+        </div>
 
         <!-- Dynamic Day/Night Toggle Switch -->
         <div class="toggle-container" id="mode-toggle">
@@ -781,7 +875,7 @@
                 <!-- Row 4 -->
                 <div class="comp-row">
                     <div class="comp-metric">Startup & Execution Latency</div>
-                    <div class="comp-ultra">Sub-millisecond (Instant init)</div>
+                    <div class="comp-ultra">Sub-millisecond (Instant shell init)</div>
                     <div class="comp-other">Node virtual machine startup & runtime compiling delay</div>
                 </div>
                 <!-- Row 5 -->
@@ -815,135 +909,136 @@
         });
     </script>
     <script>
-        // --- 1. Dynamic Tech Canvas Matrix ---
-        const canvas = document.getElementById('terminal-matrix');
-        const ctx = canvas.getContext('2d');
+        // --- TERMINAL TYPING SIMULATOR ---
+        const screen = document.getElementById('terminal-screen');
+        let currentTimeout = null;
 
-        // Match the exact 16:9 inner dimensions based on the CSS max-width limits
-        function resizeCanvas() {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        // Grid Configuration & Coordinates
-        const hexSize = 24; // Side length of hexagons
-        const xSpacing = hexSize * Math.sqrt(3);
-        const ySpacing = hexSize * 1.5;
-        let particles = [];
-        let mouse = { x: null, y: null, active: false };
-
-        // Tracks mouse coordinates relative to the canvas bounding box
-        canvas.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouse.x = e.clientX - rect.left;
-            mouse.y = e.clientY - rect.top;
-            mouse.active = true;
-        });
-
-        canvas.addEventListener('mouseleave', () => {
-            mouse.active = false;
-        });
-
-        // Initialize active traveling data nodes
-        class Particle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.speed = 0.5 + Math.random() * 0.8;
-                this.angle = (Math.floor(Math.random() * 6) * Math.PI) / 3; // Align to hex angles
-                this.life = 100 + Math.random() * 100;
-                this.maxLife = this.life;
+        const scenarios = {
+            init: {
+                prompt: "ai init ~/.config/local-ai/projects/session-test --init",
+                lines: [
+                    { text: "ℹ Compiling index map...", class: "term-gray" },
+                    { text: "✔ Compressed index-map compiled successfully at: /home/user/.config/local-ai/projects/session-test/index-map-session-test.txt", class: "term-green" },
+                    { text: "╭──────────────────────────────────────────────╮", class: "term-cyan" },
+                    { text: "│  >_ Local-AI Agent (v0.8.9.5)                │", class: "term-white" },
+                    { text: "│                                              │", class: "term-dim" },
+                    { text: "│  model:     gemini-3.1-flash-lite            │", class: "term-dim" },
+                    { text: "│  directory: ...-ai/projects/session-test     │", class: "term-dim" },
+                    { text: "│  skill:     init                             │", class: "term-dim" },
+                    { text: "│  database:  42 turns (asleep)                │", class: "term-dim" },
+                    { text: "╰──────────────────────────────────────────────╯", class: "term-cyan" },
+                    { text: "[sys] Startup context: 92 tokens | Ctrl+C to exit.", class: "term-dim" },
+                    { text: "", class: "term-dim" },
+                    { text: "Agent: Workspace loaded. Awaiting instructions.", class: "term-green" }
+                ]
+            },
+            chat: {
+                prompt: "ai",
+                lines: [
+                    { text: "╭──────────────────────────────────────────────╮", class: "term-cyan" },
+                    { text: "│  >_ Local-AI Agent (v0.8.9.5)                │", class: "term-white" },
+                    { text: "│                                              │", class: "term-dim" },
+                    { text: "│  model:     gemini-3.1-flash-lite            │", class: "term-dim" },
+                    { text: "│  directory: ...-ai/projects/session-test     │", class: "term-dim" },
+                    { text: "│  skill:     default                          │", class: "term-dim" },
+                    { text: "│  database:  stateless                        │", class: "term-dim" },
+                    { text: "╰──────────────────────────────────────────────╯", class: "term-cyan" },
+                    { text: "[sys] Startup context: 57 tokens | Ctrl+C to exit.", class: "term-dim" },
+                    { text: "", class: "" },
+                    { text: "❯ what time is it", class: "term-white", is_input: true },
+                    { text: "[sys] Executing: date", class: "term-dim" },
+                    { text: "AI: The current time is 6:25 PM CDT on Saturday, June 27, 2026.", class: "term-green" }
+                ]
+            },
+            query: {
+                prompt: "ai what time is it",
+                lines: [
+                    { text: "[sys] Executing: date", class: "term-dim" },
+                    { text: "AI: The current time is 6:24 PM CDT on Saturday, June 27, 2026.", class: "term-green" }
+                ]
             }
-            update() {
-                this.x += Math.cos(this.angle) * this.speed;
-                this.y += Math.sin(this.angle) * this.speed;
-                this.life--;
-            }
-            draw(color) {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = color;
-                ctx.shadowColor = color;
-                ctx.shadowBlur = 6;
-                ctx.fill();
-                ctx.shadowBlur = 0; // Reset shadow for performance
-            }
+        };
+
+        function clearTerminal() {
+            if (currentTimeout) clearTimeout(currentTimeout);
+            screen.innerHTML = '';
         }
 
-        // Draw a single flat outline hexagon
-        function drawHexagon(x, y, size, strokeColor) {
-            ctx.beginPath();
-            for (let i = 0; i < 6; i++) {
-                const angle = (Math.PI / 3) * i;
-                const px = x + size * Math.cos(angle);
-                const py = y + size * Math.sin(angle);
-                if (i === 0) ctx.moveTo(px, py);
-                else ctx.lineTo(px, py);
+        function simulateTyping(scenarioId) {
+            clearTerminal();
+            const sc = scenarios[scenarioId];
+
+            const promptLine = document.createElement('div');
+            promptLine.className = 'term-line';
+            promptLine.innerHTML = `<span class="term-prompt">~ ❯ </span><span id="typing-prompt"></span><span class="cursor" id="prompt-cursor"></span>`;
+            screen.appendChild(promptLine);
+
+            const typingSpan = document.getElementById('typing-prompt');
+            const cursorSpan = document.getElementById('prompt-cursor');
+            let charIndex = 0;
+
+            function typeChar() {
+                if (charIndex < sc.prompt.length) {
+                    typingSpan.textContent += sc.prompt[charIndex];
+                    charIndex++;
+                    currentTimeout = setTimeout(typeChar, 40 + Math.random() * 30);
+                } else {
+                    cursorSpan.style.display = 'none';
+                    currentTimeout = setTimeout(() => printLines(sc.lines, 0), 200);
+                }
             }
-            ctx.closePath();
-            ctx.strokeStyle = strokeColor;
-            ctx.lineWidth = 0.4;
-            ctx.stroke();
+            typeChar();
         }
 
-        // Main 60fps Render Loop
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function printLines(lines, index) {
+            if (index >= lines.length) return;
 
-            // Dynamically inherit active CSS variables to synchronize colors with Sunset/Nebulae toggle
-            const isNight = !document.body.classList.contains('day-mode');
-            const accentColor = isNight ? 'rgba(167, 139, 250, 0.05)' : 'rgba(245, 158, 11, 0.05)';
-            const nodeColor = isNight ? 'rgba(0, 240, 255, 0.5)' : 'rgba(245, 158, 11, 0.6)';
+            const line = lines[index];
+            const div = document.createElement('div');
+            div.className = `term-line ${line.class || ''}`;
 
-            // 1. Draw static tech grid
-            const cols = Math.ceil(canvas.width / xSpacing) + 1;
-            const rows = Math.ceil(canvas.height / ySpacing) + 1;
-
-            for (let r = 0; r < rows; r++) {
-                const y = r * ySpacing;
-                const offset = (r % 2) * (xSpacing / 2);
-                for (let c = 0; r % 2 === 0 ? c < cols : c < cols + 1; c++) {
-                    const x = c * xSpacing - offset;
-                    
-                    // Add mouse interactive scaling
-                    let stroke = accentColor;
-                    if (mouse.active) {
-                        const dist = Math.hypot(x - mouse.x, y - mouse.y);
-                        if (dist < 100) {
-                            const opacity = (1 - dist / 100) * 0.15 + 0.05;
-                            stroke = isNight ? `rgba(0, 240, 255, ${opacity})` : `rgba(245, 158, 11, ${opacity})`;
-                        }
+            if (line.is_input) {
+                div.innerHTML = `<span class="cursor"></span>`;
+                screen.appendChild(div);
+                let subIdx = 0;
+                
+                function typeSub() {
+                    if (subIdx < line.text.length) {
+                        div.innerHTML = line.text.substring(0, subIdx + 1) + `<span class="cursor"></span>`;
+                        subIdx++;
+                        currentTimeout = setTimeout(typeSub, 50);
+                    } else {
+                        div.innerHTML = line.text;
+                        currentTimeout = setTimeout(() => printLines(lines, index + 1), 300);
                     }
-                    drawHexagon(x, y, hexSize, stroke);
                 }
+                typeSub();
+            } else {
+                div.textContent = line.text;
+                screen.appendChild(div);
+                screen.scrollTop = screen.scrollHeight;
+                
+                let delay = 30 + Math.random() * 40;
+                if (line.text.startsWith('Agent:') || line.text.startsWith('AI:')) delay = 400;
+                
+                currentTimeout = setTimeout(() => printLines(lines, index + 1), delay);
             }
-
-            // 2. Generate and update active traveling nodes
-            if (particles.length < 15 && Math.random() < 0.1) {
-                const rx = Math.random() * canvas.width;
-                const ry = Math.random() * canvas.height;
-                particles.push(new Particle(rx, ry));
-            }
-
-            particles.forEach((p, index) => {
-                p.update();
-                p.draw(nodeColor);
-                if (p.life <= 0 || p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
-                    particles.splice(index, 1);
-                }
-            });
-
-            // 3. Central glowing status overlay
-            ctx.font = '11px monospace';
-            ctx.fillStyle = isNight ? 'rgba(0, 240, 255, 0.35)' : 'rgba(245, 158, 11, 0.45)';
-            ctx.textAlign = 'center';
-            ctx.fillText('RESERVED FOR DEMO VIDEO', canvas.width / 2, canvas.height / 2);
-
-            requestAnimationFrame(animate);
         }
-        animate();
+
+        function loadScenario(id) {
+            const buttons = document.querySelectorAll('.term-tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            const activeBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(id));
+            if (activeBtn) activeBtn.classList.add('active');
+
+            simulateTyping(id);
+        }
+
+        // Initialize default view
+        window.addEventListener('load', () => {
+            loadScenario('init');
+        });
     </script>
     <!-- 7. Premium Glassmorphic Footer -->
     <footer>
