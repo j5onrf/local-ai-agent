@@ -629,12 +629,17 @@
 
         .comp-row {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+    
+            grid-template-columns: 1fr 1.3fr 1fr; 
+    
+           /* Tweak 2: Add a strict 24px column gap safety margin so text can never collide */
+            column-gap: 1.5rem; 
+    
             padding: 1.2rem 1.5rem;
             border-bottom: 1px solid var(--glass-border);
             font-size: 0.9rem;
             align-items: center;
-        }
+}
 
         .comp-row:last-child {
             border-bottom: none;
