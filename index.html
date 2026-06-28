@@ -96,7 +96,7 @@
         #blob-night-left {
             top: -20%;
             left: -10%;
-            background: radial-gradient(circle, rgba(0, 85, 255, 0.18) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0, 85, 255, 0.18) 0%, transparent 70%); /* Retained your exact electric blue glow value */
             animation: drift-left 25s infinite ease-in-out;
             opacity: 1;
         }
@@ -159,13 +159,13 @@
 
         .hex {
             position: absolute;
-            opacity: 0.18; /* Higher default visibility for dark mode */
+            opacity: 0.18; 
             pointer-events: none;
             transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         body.day-mode .hex {
-            opacity: 0.12; /* Slightly lower in warmer day mode */
+            opacity: 0.12; 
         }
 
         .hex polygon {
@@ -378,10 +378,10 @@
             line-height: 1.6;
         }
 
-        /* Interactive Hyprland / Kitty Terminal emulator styling */
+        /* --- Interactive Kitty Terminal emulator styling --- */
         .terminal-container {
             width: 100%;
-            max-width: 768px; /* Increased from 640px to 768px (Scaled one size larger) */
+            max-width: 768px; /* Scaled one size larger for balanced readability */
             margin-bottom: 3.5rem;
             display: flex;
             flex-direction: column;
@@ -458,7 +458,7 @@
 
         /* Color classes matching ANSI CLI colors */
         .term-cyan { color: var(--accent-color); transition: color 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
-        .term-dim { color: rgba(255, 255, 255, 0.35); }
+        .term-dim { color: rgba(255, 255, 255, 0.55); } /* Increased from 0.35 to 0.55 for enhanced high-end legibility */
         .term-gray { color: #9ca3af; }
         .term-green { color: #10b981; }
         .term-red { color: #ef4444; }
@@ -573,6 +573,26 @@
             color: var(--text-muted);
             line-height: 1.5;
         }
+        
+        /* 1. Locate this class and soften the idle glow filter */
+        .card-icon {
+           width: 32px;
+           height: 32px;
+           margin-bottom: 1.2rem;
+           color: var(--accent-color);
+           transition: color 1.2s cubic-bezier(0.25, 1, 0.5, 1), filter 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    
+        /* Tweak: Changed from var(--accent-color) to var(--glow-color) and reduced blur to 3px */
+           filter: drop-shadow(0 0 3px var(--glow-color)); 
+}
+
+        /* 2. Locate this hover rule and soften the hover glow filter */
+        .card:hover .card-icon {
+           color: var(--text-light); 
+    
+        /* Tweak: Reduced hover glow blur radius and opacity */
+           filter: drop-shadow(0 0 5px var(--accent-color)); 
+}
 
         /* 5. Direct Mapping vs. MCP Callout */
         .comparison-section {
@@ -813,19 +833,40 @@
         <!-- Glass Grid -->
         <div class="feature-grid" id="features">
             <div class="card">
+                <!-- Terminal Chevron Icon -->
+                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="4 17 10 11 4 5"></polyline>
+                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                </svg>
                 <h3>Terminal Focus</h3>
                 <p>No browser tabs. No window swaps. Converse and code in the same active shell to protect your cognitive flow state.</p>
             </div>
             <div class="card">
-                <h3>Active Sysadmin</h3>
+                <!-- Hardware Circuit/Cpu Icon -->
+                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+</svg>
+                <h3>System Tools</h3>
                 <p>Link local AI directly to your hardware specs. Your machine acts as its own <a href="https://github.com/j5onrf/local-ai/tree/main/tools/agentic/system" target="_blank" style="color: var(--accent-color); text-decoration: underline;"><strong>system administrator</strong></a> to keep everything optimal.</p>
             </div>
             <div class="card">
+                <!-- Defensive Shield Icon -->
+                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
                 <h3>Secure Runtime</h3>
                 <p>Containerize natively inside Docker for absolute environment isolation. Scrutinize third-party skills using <a href="https://github.com/j5onrf/local-ai/tree/main/projects" target="_blank" style="color: var(--accent-color); text-decoration: underline;"><strong>NVIDIA SkillSpector</strong></a> before local execution.</p>
             </div>
             <div class="card">
-                <h3>Multi-Model Routing</h3>
+                <!-- Multi-node network cascade router Icon -->
+                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="6" y1="3" x2="6" y2="15"></line>
+                    <circle cx="18" cy="6" r="3"></circle>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <path d="M18 9a9 9 0 0 1-9 9H9"></path>
+                </svg>
+                <h3>Model Routing</h3>
                 <p>Access frontier models via a single OpenRouter key. Natively cascades across Gemini, OpenRouter, and local offline models.</p>
             </div>
         </div>
@@ -889,27 +930,25 @@
     </main>
 
     <script>
+        // --- 1. SUNSET / NEBULAE THEME TOGGLE ---
         const toggle = document.getElementById('mode-toggle');
         const body = document.body;
-        
-        // Grab the two buttons inside the toggle container by their class
         const buttons = toggle.querySelectorAll('.toggle-btn');
-        const btnDay = buttons[0];
-        const btnNight = buttons[1];
+        const btnSunset = buttons[0];
+        const btnNebulae = buttons[1];
 
         toggle.addEventListener('click', () => {
             const isDay = body.classList.toggle('day-mode');
             if (isDay) {
-                btnNight.classList.remove('active');
-                btnDay.classList.add('active');
+                btnNebulae.classList.remove('active');
+                btnSunset.classList.add('active');
             } else {
-                btnDay.classList.remove('active');
-                btnNight.classList.add('active');
+                btnSunset.classList.remove('active');
+                btnNebulae.classList.add('active');
             }
         });
-    </script>
-    <script>
-        // --- TERMINAL TYPING SIMULATOR ---
+
+        // --- 2. INTERACTIVE TERMINAL TYPING SIMULATOR ---
         const screen = document.getElementById('terminal-screen');
         let currentTimeout = null;
 
@@ -918,7 +957,7 @@
                 prompt: "ai init ~/.config/local-ai/projects/session-test --init",
                 lines: [
                     { text: "ℹ Compiling index map...", class: "term-gray" },
-                    { text: "✔ Compressed index-map compiled successfully at: /home/user/.config/local-ai/projects/session-test/index-map-session-test.txt", class: "term-green" },
+                    { text: "✔ Compressed index-map: ~/session-test/index-map-session-test.txt", class: "term-green" },
                     { text: "╭──────────────────────────────────────────────╮", class: "term-cyan" },
                     { text: "│  >_ Local-AI Agent (v0.8.9.1)                │", class: "term-white" },
                     { text: "│                                              │", class: "term-dim" },
@@ -937,108 +976,6 @@
                 lines: [
                     { text: "╭──────────────────────────────────────────────╮", class: "term-cyan" },
                     { text: "│  >_ Local-AI Agent (v0.8.9.1)                │", class: "term-white" },
-                    { text: "│                                              │", class: "term-dim" },
-                    { text: "│  model:     gemini-3.1-flash-lite            │", class: "term-dim" },
-                    { text: "│  directory: ...-ai/projects/session-test     │", class: "term-dim" },
-                    { text: "│  skill:     default                          │", class: "term-dim" },
-                    { text: "│  database:  stateless                        │", class: "term-dim" },
-                    { text: "╰──────────────────────────────────────────────╯", class: "term-cyan" },
-                    { text: "[sys] Startup context: 57 tokens | Ctrl+C to exit.", class: "term-dim" },
-                    { text: "", class: "" },
-                    { text: "❯ what time is it", class: "term-white", is_input: true },
-                    { text: "[sys] Executing: date", class: "term-dim" },
-                    { text: "AI: The current time is 6:25 PM CDT on Saturday, June 27, 2026.", class: "term-green" }
-                ]
-            },
-            query: {
-                prompt: "ai what time is it",
-                lines: [
-                    { text: "[sys] Executing: date", class: "term-dim" },
-                    { text: "AI: The current time is 6:24 PM CDT on Saturday, June 27, 2026.", class: "term-green" }
-                ]
-            }
-        };
-
-        function clearTerminal() {
-            if (currentTimeout) clearTimeout(currentTimeout);
-            screen.innerHTML = '';
-        }
-
-        function simulateTyping(scenarioId) {
-            clearTerminal();
-            const sc = scenarios[scenarioId];
-
-            const promptLine = document.createElement('div');
-            promptLine.className = 'term-line';
-            promptLine.innerHTML = `<span class="term-prompt">~ ❯ </span><span id="typing-prompt"></span><span class="cursor" id="prompt-cursor"></span>`;
-            screen.appendChild(promptLine);
-
-            const typingSpan = document.getElementById('typing-prompt');
-            const cursorSpan = document.getElementById('prompt-cursor');
-            let charIndex = 0;
-
-            function typeChar() {
-                if (charIndex < sc.prompt.length) {
-                    typingSpan.textContent += sc.prompt[charIndex];
-                    charIndex++;
-                    currentTimeout = setTimeout(typeChar, 40 + Math.random() * 30);
-                } else {
-                    cursorSpan.style.display = 'none';
-                    currentTimeout = setTimeout(() => printLines(sc.lines, 0), 200);
-                }
-            }
-            typeChar();
-        }
-
-    <script>
-        const toggle = document.getElementById('mode-toggle');
-        const body = document.body;
-        
-        // Grab the two buttons inside the toggle container by their class
-        const buttons = toggle.querySelectorAll('.toggle-btn');
-        const btnDay = buttons[0];
-        const btnNight = buttons[1];
-
-        toggle.addEventListener('click', () => {
-            const isDay = body.classList.toggle('day-mode');
-            if (isDay) {
-                btnNight.classList.remove('active');
-                btnDay.classList.add('active');
-            } else {
-                btnDay.classList.remove('active');
-                btnNight.classList.add('active');
-            }
-        });
-    </script>
-    <script>
-        // --- TERMINAL TYPING SIMULATOR ---
-        const screen = document.getElementById('terminal-screen');
-        let currentTimeout = null;
-
-        const scenarios = {
-            init: {
-                prompt: "ai init ~/.config/local-ai/projects/session-test --init",
-                lines: [
-                    { text: "ℹ Compiling index map...", class: "term-gray" },
-                    { text: "✔ Compressed index-map compiled successfully at: /home/user/.config/local-ai/projects/session-test/index-map-session-test.txt", class: "term-green" },
-                    { text: "╭──────────────────────────────────────────────╮", class: "term-cyan" },
-                    { text: "│  >_ Local-AI Agent (v0.8.9.5)                │", class: "term-white" },
-                    { text: "│                                              │", class: "term-dim" },
-                    { text: "│  model:     gemini-3.1-flash-lite            │", class: "term-dim" },
-                    { text: "│  directory: ...-ai/projects/session-test     │", class: "term-dim" },
-                    { text: "│  skill:     init                             │", class: "term-dim" },
-                    { text: "│  database:  42 turns (asleep)                │", class: "term-dim" },
-                    { text: "╰──────────────────────────────────────────────╯", class: "term-cyan" },
-                    { text: "[sys] Startup context: 92 tokens | Ctrl+C to exit.", class: "term-dim" },
-                    { text: "", class: "term-dim" },
-                    { text: "Agent: Workspace loaded. Awaiting instructions.", class: "term-green" }
-                ]
-            },
-            chat: {
-                prompt: "ai",
-                lines: [
-                    { text: "╭──────────────────────────────────────────────╮", class: "term-cyan" },
-                    { text: "│  >_ Local-AI Agent (v0.8.9.5)                │", class: "term-white" },
                     { text: "│                                              │", class: "term-dim" },
                     { text: "│  model:     gemini-3.1-flash-lite            │", class: "term-dim" },
                     { text: "│  directory: ...-ai/projects/session-test     │", class: "term-dim" },
