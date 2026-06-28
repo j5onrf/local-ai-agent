@@ -366,7 +366,7 @@
             0%, 22% { transform: translateY(0); }
             25%, 47% { transform: translateY(-25%); }
             50%, 72% { transform: translateY(-50%); }
-            75%, 97% { transform: translateY(-75%); } 
+            75%, 97% { transform: translateY(-75%); } /* Corrected from -60% to -75% */
             100% { transform: translateY(-75%); }
         }
         
@@ -378,10 +378,10 @@
             line-height: 1.6;
         }
 
-        /* --- Interactive Kitty Terminal emulator styling --- */
+        /* Interactive Hyprland / Kitty Terminal emulator styling */
         .terminal-container {
             width: 100%;
-            max-width: 640px; /* Aligned exactly with your 640px sweet-spot video width */
+            max-width: 768px; /* Increased from 640px to 768px (Scaled one size larger) */
             margin-bottom: 3.5rem;
             display: flex;
             flex-direction: column;
@@ -433,7 +433,7 @@
             overflow: hidden;
             text-align: left;
             font-family: var(--font-mono);
-            font-size: 0.8rem;
+            font-size: 0.9rem; /* Scaled from 0.8rem to 0.9rem for balanced readability */
             line-height: 1.4;
             box-shadow: 0 0 25px var(--glow-color);
             transition: border-color 0.4s, box-shadow 1.2s cubic-bezier(0.25, 1, 0.5, 1);
@@ -786,7 +786,7 @@
                 </div>
                 your Bash prompt.
             </h1>
-        <p class="hero-subtitle">An ultra-light, zero-daemon terminal assistant built on pure standard-library Python. Codebase-aware, state-isolated, and context-optimized.</p>
+        <p class="hero-subtitle">An ultra-light, zero-daemon terminal assistant built on pure standard-library Python. Codebase-aware, state-isolated, and context-optimized.</p><br><br>
 
         <!-- Simulated Interactive Hyprland Terminal Emulator (Kitty) -->
         <div class="terminal-container">
@@ -887,6 +887,108 @@
             </div>
         </div>
     </main>
+
+    <script>
+        const toggle = document.getElementById('mode-toggle');
+        const body = document.body;
+        
+        // Grab the two buttons inside the toggle container by their class
+        const buttons = toggle.querySelectorAll('.toggle-btn');
+        const btnDay = buttons[0];
+        const btnNight = buttons[1];
+
+        toggle.addEventListener('click', () => {
+            const isDay = body.classList.toggle('day-mode');
+            if (isDay) {
+                btnNight.classList.remove('active');
+                btnDay.classList.add('active');
+            } else {
+                btnDay.classList.remove('active');
+                btnNight.classList.add('active');
+            }
+        });
+    </script>
+    <script>
+        // --- TERMINAL TYPING SIMULATOR ---
+        const screen = document.getElementById('terminal-screen');
+        let currentTimeout = null;
+
+        const scenarios = {
+            init: {
+                prompt: "ai init ~/.config/local-ai/projects/session-test --init",
+                lines: [
+                    { text: "ℹ Compiling index map...", class: "term-gray" },
+                    { text: "✔ Compressed index-map compiled successfully at: /home/user/.config/local-ai/projects/session-test/index-map-session-test.txt", class: "term-green" },
+                    { text: "╭──────────────────────────────────────────────╮", class: "term-cyan" },
+                    { text: "│  >_ Local-AI Agent (v0.8.9.1)                │", class: "term-white" },
+                    { text: "│                                              │", class: "term-dim" },
+                    { text: "│  model:     gemini-3.1-flash-lite            │", class: "term-dim" },
+                    { text: "│  directory: ...-ai/projects/session-test     │", class: "term-dim" },
+                    { text: "│  skill:     init                             │", class: "term-dim" },
+                    { text: "│  database:  42 turns (asleep)                │", class: "term-dim" },
+                    { text: "╰──────────────────────────────────────────────╯", class: "term-cyan" },
+                    { text: "[sys] Startup context: 92 tokens | Ctrl+C to exit.", class: "term-dim" },
+                    { text: "", class: "term-dim" },
+                    { text: "Agent: Workspace loaded. Awaiting instructions.", class: "term-green" }
+                ]
+            },
+            chat: {
+                prompt: "ai",
+                lines: [
+                    { text: "╭──────────────────────────────────────────────╮", class: "term-cyan" },
+                    { text: "│  >_ Local-AI Agent (v0.8.9.1)                │", class: "term-white" },
+                    { text: "│                                              │", class: "term-dim" },
+                    { text: "│  model:     gemini-3.1-flash-lite            │", class: "term-dim" },
+                    { text: "│  directory: ...-ai/projects/session-test     │", class: "term-dim" },
+                    { text: "│  skill:     default                          │", class: "term-dim" },
+                    { text: "│  database:  stateless                        │", class: "term-dim" },
+                    { text: "╰──────────────────────────────────────────────╯", class: "term-cyan" },
+                    { text: "[sys] Startup context: 57 tokens | Ctrl+C to exit.", class: "term-dim" },
+                    { text: "", class: "" },
+                    { text: "❯ what time is it", class: "term-white", is_input: true },
+                    { text: "[sys] Executing: date", class: "term-dim" },
+                    { text: "AI: The current time is 6:25 PM CDT on Saturday, June 27, 2026.", class: "term-green" }
+                ]
+            },
+            query: {
+                prompt: "ai what time is it",
+                lines: [
+                    { text: "[sys] Executing: date", class: "term-dim" },
+                    { text: "AI: The current time is 6:24 PM CDT on Saturday, June 27, 2026.", class: "term-green" }
+                ]
+            }
+        };
+
+        function clearTerminal() {
+            if (currentTimeout) clearTimeout(currentTimeout);
+            screen.innerHTML = '';
+        }
+
+        function simulateTyping(scenarioId) {
+            clearTerminal();
+            const sc = scenarios[scenarioId];
+
+            const promptLine = document.createElement('div');
+            promptLine.className = 'term-line';
+            promptLine.innerHTML = `<span class="term-prompt">~ ❯ </span><span id="typing-prompt"></span><span class="cursor" id="prompt-cursor"></span>`;
+            screen.appendChild(promptLine);
+
+            const typingSpan = document.getElementById('typing-prompt');
+            const cursorSpan = document.getElementById('prompt-cursor');
+            let charIndex = 0;
+
+            function typeChar() {
+                if (charIndex < sc.prompt.length) {
+                    typingSpan.textContent += sc.prompt[charIndex];
+                    charIndex++;
+                    currentTimeout = setTimeout(typeChar, 40 + Math.random() * 30);
+                } else {
+                    cursorSpan.style.display = 'none';
+                    currentTimeout = setTimeout(() => printLines(sc.lines, 0), 200);
+                }
+            }
+            typeChar();
+        }
 
     <script>
         const toggle = document.getElementById('mode-toggle');
