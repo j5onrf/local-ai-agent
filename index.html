@@ -1020,8 +1020,8 @@
 
             const promptLine = document.createElement('div');
             promptLine.className = 'term-line';
-            // Configured with solid unicode character block '█' colored via standard CSS text color
-            promptLine.innerHTML = `<span class="term-prompt">❯ </span><span id="typing-prompt"></span><span class="cursor" id="prompt-cursor">█</span>`;
+            // Restored the classic directory indicator '~ ❯ ' only for the top input line
+            promptLine.innerHTML = `<span class="term-prompt">~ ❯ </span><span id="typing-prompt"></span><span class="cursor" id="prompt-cursor">█</span>`;
             screen.appendChild(promptLine);
 
             const typingSpan = document.getElementById('typing-prompt');
@@ -1049,7 +1049,7 @@
             div.className = `term-line ${line.class || ''}`;
 
             if (line.is_prompt) {
-                // Configured with solid unicode character block '█' colored via standard CSS text color
+                // Keep the trailing prompt at the end of output clean (using only '❯ ')
                 div.innerHTML = `<span class="term-prompt">${line.text}</span><span class="cursor">█</span>`;
                 screen.appendChild(div);
                 screen.scrollTop = screen.scrollHeight;
@@ -1091,6 +1091,7 @@
             }
         }
 
+        // Initialize default view
         function loadScenario(id) {
             const buttons = document.querySelectorAll('.term-tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
@@ -1101,7 +1102,6 @@
             simulateTyping(id);
         }
 
-        // Initialize default view
         window.addEventListener('load', () => {
             loadScenario('init');
         });
