@@ -1071,7 +1071,16 @@
                 }
                 typeSub();
             } else {
-                div.textContent = line.text;
+                // Style vertical box borders (│) with term-cyan automatically if present
+                if (line.text.includes('│')) {
+                    const escaped = line.text
+                        .replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;");
+                    div.innerHTML = escaped.replace(/│/g, '<span class="term-cyan">│</span>');
+                } else {
+                    div.textContent = line.text;
+                }
                 screen.appendChild(div);
                 screen.scrollTop = screen.scrollHeight;
                 
