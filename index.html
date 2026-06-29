@@ -473,10 +473,10 @@
 
         .cursor {
             display: inline-block;
-            width: 7px;
-            height: 15px;
-            background: var(--text-light);
+            color: var(--text-light); /* Uses pure CSS text coloring to prevent dark-mode inversion */
             vertical-align: middle;
+            margin-left: 2px;
+            user-select: none; /* Prevents selection highlighting on the block itself */
             animation: blink 0.8s infinite;
         }
 
@@ -973,7 +973,9 @@
                     { text: "╰──────────────────────────────────────────────╯", class: "term-cyan" },
                     { text: "[sys] Startup context: 92 tokens | Ctrl+C to exit.", class: "term-dim" },
                     { text: "", class: "term-dim" },
-                    { text: "Agent: Workspace loaded. Awaiting instructions.", class: "term-green" }
+                    { text: "Agent: Workspace loaded. Awaiting instructions.", class: "term-green" },
+                    { text: "", class: "" }, 
+                    { text: "❯ ", is_prompt: true }
                 ]
             },
             chat: {
@@ -991,14 +993,18 @@
                     { text: "", class: "" },
                     { text: "❯ what time is it", class: "term-white", is_input: true },
                     { text: "[sys] Executing: date", class: "term-dim" },
-                    { text: "AI: The current time is 6:25 PM CDT on Saturday, June 27, 2026.", class: "term-green" }
+                    { text: "AI: The current time is 6:25 PM CDT on Saturday, June 27, 2026.", class: "term-green" },
+                    { text: "", class: "" },
+                    { text: "❯ ", is_prompt: true } 
                 ]
             },
             query: {
                 prompt: "ai what time is it",
                 lines: [
                     { text: "[sys] Executing: date", class: "term-dim" },
-                    { text: "AI: The current time is 6:24 PM CDT on Saturday, June 27, 2026.", class: "term-green" }
+                    { text: "AI: The current time is 6:24 PM CDT on Saturday, June 27, 2026.", class: "term-green" },
+                    { text: "", class: "" },
+                    { text: "❯ ", is_prompt: true } 
                 ]
             }
         };
@@ -1014,7 +1020,8 @@
 
             const promptLine = document.createElement('div');
             promptLine.className = 'term-line';
-            promptLine.innerHTML = `<span class="term-prompt">~ ❯ </span><span id="typing-prompt"></span><span class="cursor" id="prompt-cursor"></span>`;
+            // Configured with solid unicode character block '█' colored via standard CSS text color
+            promptLine.innerHTML = `<span class="term-prompt">❯ </span><span id="typing-prompt"></span><span class="cursor" id="prompt-cursor">█</span>`;
             screen.appendChild(promptLine);
 
             const typingSpan = document.getElementById('typing-prompt');
@@ -1041,14 +1048,20 @@
             const div = document.createElement('div');
             div.className = `term-line ${line.class || ''}`;
 
-            if (line.is_input) {
-                div.innerHTML = `<span class="cursor"></span>`;
+            if (line.is_prompt) {
+                // Configured with solid unicode character block '█' colored via standard CSS text color
+                div.innerHTML = `<span class="term-prompt">${line.text}</span><span class="cursor">█</span>`;
+                screen.appendChild(div);
+                screen.scrollTop = screen.scrollHeight;
+                currentTimeout = setTimeout(() => printLines(lines, index + 1), 50);
+            } else if (line.is_input) {
+                div.innerHTML = `<span class="cursor">█</span>`;
                 screen.appendChild(div);
                 let subIdx = 0;
                 
                 function typeSub() {
                     if (subIdx < line.text.length) {
-                        div.innerHTML = line.text.substring(0, subIdx + 1) + `<span class="cursor"></span>`;
+                        div.innerHTML = line.text.substring(0, subIdx + 1) + `<span class="cursor">█</span>`;
                         subIdx++;
                         currentTimeout = setTimeout(typeSub, 50);
                     } else {
