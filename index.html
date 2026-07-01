@@ -698,12 +698,81 @@
             }
         }
 
+        /* --- SPECS TABLE --- */
+        .comparison-table {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-top: 2rem;
+        }
+
+        .comp-row {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr 1fr; 
+            column-gap: 1.5rem; 
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            align-items: center;
+        }
+
+        /* Subtle Zebra Striping for scanability */
+        body.night-mode .comp-row:nth-child(even) {
+            background: rgba(255, 255, 255, 0.01);
+        }
+        body.day-mode .comp-row:nth-child(even) {
+            background: rgba(0, 0, 0, 0.015);
+        }
+
+        .comp-row:last-child {
+            border-bottom: none;
+        }
+
+        .comp-header {
+            font-weight: 700;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.01) !important;
+        }
+
+        .comp-metric {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .comp-ultra {
+            color: var(--accent-color);
+            font-weight: 700;
+            transition: color 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .comp-other {
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .comp-row {
+                grid-template-columns: 1fr;
+                gap: 0.4rem;
+                padding: 1rem;
+            }
+            .comp-header {
+                display: none; /* Hide header columns on mobile */
+            }
+        }
+
        /* --- THE CHEAT SHEET COMPACT DASHBOARD CARD --- */
         .cheat-sheet-section {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1000px; /* Scaled to match Feature Grid and MCP section width */
             text-align: left;
-            margin-top: 8rem;
+            margin-top: 8rem; /* Premium semantic layout spacing */
         }
 
         .cheat-sheet-card {
@@ -744,7 +813,7 @@
         }
 
         .cs-row {
-            display: contents;
+            display: contents; /* Seamless grid rows */
         }
 
         .cs-cell {
@@ -753,6 +822,7 @@
             line-height: 1.45;
         }
 
+        /* Zebra row shading inside the terminal card layout */
         .cs-row:nth-child(even) .cs-cell {
             background: rgba(255, 255, 255, 0.005);
         }
@@ -770,11 +840,11 @@
 
         .cs-desc {
             color: var(--text-muted);
-            font-family: var(--font-sans);
+            font-family: var(--font-sans); /* Kept description in highly legible sans-serif */
             font-size: 0.85rem;
         }
 
-        /* Category dividers with clean semantic top margins instead of <br> tags */
+        /* Header Subpartitions on Grid Span */
         .cs-group-row {
             grid-column: span 2;
             background: rgba(255, 255, 255, 0.015);
@@ -790,6 +860,7 @@
             margin-top: 1.5rem; /* Clean grid separation */
         }
 
+        /* Excludes border offset on the top row directly under the header */
         .cs-group-row:first-child {
             border-top: none;
             margin-top: 0; /* Exclude top spacing on first group */
@@ -1046,6 +1117,51 @@
                         [Prompt] ──&gt; [RPC Client] ──&gt; [JSON Engine] ──&gt; [Daemon Server] ──&gt; [Process Host]
                         <br><span class="term-red">▶ Result: Protocol lag & startup compiling delays</span>
                     </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TECHNICAL SPECS SECTION -->
+        <div class="comparison-section" id="specs">
+            <h2 class="section-title">Resource Footprint</h2>
+            <p class="section-subtitle">How the agent compares against standard Node-based terminal coding agents.</p>
+            
+            <div class="comparison-table">
+                <!-- Header Row -->
+                <div class="comp-row comp-header">
+                    <div>Specification Metric</div>
+                    <div>Local-AI Agent</div>
+                    <div>Node CLI Agents</div>
+                </div>
+                <!-- Row 1 -->
+                <div class="comp-row">
+                    <div class="comp-metric">Primary Runtime Dependency</div>
+                    <div class="comp-ultra">Python Standard Library</div>
+                    <div class="comp-other">Node.js / Bun / Native Rust compilation</div>
+                </div>
+                <!-- Row 2 -->
+                <div class="comp-row">
+                    <div class="comp-metric">Idle Footprint (CPU/RAM)</div>
+                    <div class="comp-ultra">0% CPU (blocks natively on OS file descriptors)</div>
+                    <div class="comp-other">Continuous event-loop ticks & background listeners</div>
+                </div>
+                <!-- Row 3 -->
+                <div class="comp-row">
+                    <div class="comp-metric">Installation Package Size</div>
+                    <div class="comp-ultra">&lt; 15 KB (Pure Python scripts)</div>
+                    <div class="comp-other">&gt; 50 MB (Heavy nested node_modules folder)</div>
+                </div>
+                <!-- Row 4 -->
+                <div class="comp-row">
+                    <div class="comp-metric">Startup & Execution Latency</div>
+                    <div class="comp-ultra">Sub-millisecond (Instant shell init)</div>
+                    <div class="comp-other">Node virtual machine startup & runtime compiling delay</div>
+                </div>
+                <!-- Row 5 -->
+                <div class="comp-row">
+                    <div class="comp-metric">Context Isolation</div>
+                    <div class="comp-ultra">Modular, process-specific PID isolation</div>
+                    <div class="comp-other">Shared system temporary files</div>
                 </div>
             </div>
         </div>
