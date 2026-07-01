@@ -770,9 +770,9 @@
        /* --- THE CHEAT SHEET COMPACT DASHBOARD CARD --- */
         .cheat-sheet-section {
             width: 100%;
-            max-width: 1000px; /* Scaled to match Feature Grid and MCP section width */
+            max-width: 1000px;
             text-align: left;
-            margin-top: 8rem; /* Premium semantic layout spacing */
+            margin-top: 8rem;
         }
 
         .cheat-sheet-card {
@@ -783,37 +783,37 @@
             overflow: hidden;
             font-family: var(--font-mono);
             font-size: 0.85rem;
-            max-width: 768px; /* Matches the exact width of the top terminal window */
-            margin: 0 auto; /* Centers the card while keeping section headers left-aligned */
+            max-width: 768px; /* Matches terminal container width */
+            margin: 0 auto; /* Centers card nicely */
             transition: border-color 0.4s, box-shadow 1.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         /* Active highlight on mouseover */
         .cheat-sheet-card:hover {
-            border-color: var(--accent-color); /* Glows to your theme color (Purple/Orange) */
-            box-shadow: 0 0 35px var(--glow-color); /* Deepens glow intensity on hover */
+            border-color: var(--accent-color);
+            box-shadow: 0 0 35px var(--glow-color);
         }
 
         .cheat-sheet-header {
             background: rgba(255, 255, 255, 0.02);
             padding: 0.8rem 1.2rem;
             border-bottom: 1px solid var(--glass-border);
-            font-weight: 800;
-            color: var(--accent-color);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            transition: color 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--text-muted); /* Faint console label style */
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
         }
 
         .cheat-sheet-grid {
             display: grid;
             grid-template-columns: auto 1fr;
             align-items: center;
+            padding-bottom: 1.5rem; /* Symmetric breathing room at the bottom */
         }
 
         .cs-row {
-            display: contents; /* Seamless grid rows */
+            display: contents;
         }
 
         .cs-cell {
@@ -822,7 +822,6 @@
             line-height: 1.45;
         }
 
-        /* Zebra row shading inside the terminal card layout */
         .cs-row:nth-child(even) .cs-cell {
             background: rgba(255, 255, 255, 0.005);
         }
@@ -840,35 +839,36 @@
 
         .cs-desc {
             color: var(--text-muted);
-            font-family: var(--font-sans); /* Kept description in highly legible sans-serif */
+            font-family: var(--font-sans);
             font-size: 0.85rem;
         }
 
-        /* Header Subpartitions on Grid Span */
+        /* Category dividers with clean top margins and dynamic theme color grouping */
         .cs-group-row {
             grid-column: span 2;
             background: rgba(255, 255, 255, 0.015);
             padding: 0.5rem 1.2rem;
             font-size: 0.75rem;
             font-weight: 800;
-            color: var(--text-light);
+            color: var(--accent-color); /* Seamlessly shifts Purple / Sunset Orange */
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             border-bottom: 1px solid var(--glass-border);
             border-top: 1px solid var(--glass-border);
             opacity: 0.95;
-            margin-top: 1.5rem; /* Clean grid separation */
+            margin-top: 1.5rem; /* Clean separation */
+            transition: color 1.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Excludes border offset on the top row directly under the header */
         .cs-group-row:first-child {
             border-top: none;
-            margin-top: 0; /* Exclude top spacing on first group */
+            margin-top: 0;
         }
 
         @media (max-width: 650px) {
             .cheat-sheet-grid {
                 grid-template-columns: 1fr;
+                padding-bottom: 1rem;
             }
             .cs-cmd {
                 padding-bottom: 0.1rem;
@@ -1024,7 +1024,7 @@
                 </div>
                 your Bash prompt.
             </h1>
-        <p class="hero-subtitle">An ultra-light, zero-daemon terminal cli agent built on pure standard-library Python. Codebase-aware, state-isolated, and context-optimized.</p><br><br>
+        <p class="hero-subtitle">An ultralight, zero-dependency terminal CLI agent built on pure standard-library Python. Codebase-aware, state-isolated, and context-optimized.</p><br><br>
 
         <!-- Simulated Interactive Hyprland Terminal Emulator (Kitty) -->
         <div class="terminal-container">
@@ -1166,14 +1166,14 @@
             </div>
         </div>
 
-        <!-- THE CHEAT SHEET COMPACT DASHBOARD CARD -->
+       <!-- THE CHEAT SHEET COMPACT DASHBOARD CARD -->
         <div class="cheat-sheet-section" id="commands">
             <h2 class="section-title">Command Reference</h2>
             <p class="section-subtitle">Quick-reference cheat sheet for terminal operations, active session utilities, and toggles.</p>
             
             <div class="cheat-sheet-card">
                 <div class="cheat-sheet-header">
-                    <span></span>
+                    <span>local-ai-agent --help</span>
                 </div>
                 
                 <div class="cheat-sheet-grid">
@@ -1243,7 +1243,6 @@
                     <div class="cs-row">
                         <div class="cs-cell cs-cmd"><code>/tok</code></div>
                         <div class="cs-cell cs-desc">Token Metrics</div>
-                        <div class="cs-group-row"></div>
                     </div>
                 </div>
             </div>
